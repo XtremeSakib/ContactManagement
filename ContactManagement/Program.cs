@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. এখানে আমরা শুধুমাত্র একটি শক্তিশালী CORS পলিসি রাখলাম (AllowAll)
+// 1. CORS পলিসি সার্ভিস যোগ করা (Vercel ফ্রন্টএন্ডের জন্য)
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddPolicy("AllowVercelApp", policy =>
     {
         policy.AllowAnyOrigin()
               .AllowAnyMethod()
@@ -18,30 +18,31 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 
+// 2. PostgreSQL ডাটাবেজ কনটেক্সট রেজিস্টার করা
 builder.Services.AddDbContext<ContactManagementDBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ContactManagementConnectionString")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("ContactManagementConnectionString")));
 
+// 3. ডিপেনডেন্সি ইনজেকশন (Dependency Injection) রেজিস্টার করা
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
 builder.Services.AddScoped<IContactService, ContactService>();
 builder.Services.AddScoped<IUnitofWork, UnitofWork>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// 4. CORS মিডলওয়্যার (অবশ্যই builder.Build() এর নিচে এবং UseAuthorization এর উপরে)
+app.UseCors("AllowVercelApp");
+
+// প্রোডাকশনেও যেন সোয়াগার বা এপিআই রেসপন্স ঠিকঠাক পাওয়া যায়, তাই শর্তটি কিছুটা শিথিল রাখা হলো
+if (app.Environment.IsDevelopment() || true)
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
-
-// 2. ঠিক এই পজিশনে (Routing/Redirection এর পর এবং Authorization এর আগে) CORS কল করতে হয়
-app.UseCors("AllowAll");
 
 app.UseAuthorization();
 
