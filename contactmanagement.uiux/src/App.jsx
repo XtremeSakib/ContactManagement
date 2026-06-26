@@ -16,7 +16,7 @@ function App() {
 
   
   const fetchContacts = () => {
-    axios.get('https://contactmanagement-5lzg.onrender.com/api/Contact/GetAllContacts') 
+      axios.get('https://localhost:44356/api/Contact/GetAllContacts') 
       .then(response => {
         const result = Array.isArray(response.data) 
           ? response.data 
@@ -57,7 +57,7 @@ function App() {
     
     if (isEditing) {
      
-      axios.put(`https://contactmanagement-5lzg.onrender.com/api/Contact/UpdateContact/${currentContact.id}`, currentContact)
+        axios.put(`https://localhost:44356/api/Contact/UpdateContact/${currentContact.id}`, currentContact)
         .then(() => {
           fetchContacts();
           setIsModalOpen(false);
@@ -76,7 +76,7 @@ function App() {
         phone: currentContact.phone
       };
 
-      axios.post('https://contactmanagement-5lzg.onrender.com/api/Contact/AddContact', contactToSend)
+        axios.post('https://localhost:44356/api/Contact/AddContact', contactToSend)
         .then(() => {
           fetchContacts();
           setIsModalOpen(false);
@@ -92,7 +92,7 @@ function App() {
   
   const handleDelete = (id, name) => {
     if (window.confirm(`Are you sure you want to delete ${name}?`)) {
-      axios.delete(`https://contactmanagement-5lzg.onrender.com/api/Contact/DeleteContact/${id}`)
+        axios.delete(`https://localhost:44356/api/Contact/DeleteContact/${id}`)
         .then(() => {
           fetchContacts();
           alert("Contact deleted successfully! 🗑️");
