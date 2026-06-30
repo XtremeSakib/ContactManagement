@@ -1,5 +1,5 @@
 ﻿using ContactManagement.Model;
-using ContactManagement.Service;
+using ContactManagement.Service.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

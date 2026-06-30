@@ -10,13 +10,13 @@ namespace ContactManagement.UOW
         
         public IContactRepository ContactRepository { get; }
 
+        public IUserRepository UserRepository { get; }
 
-
-        public UnitofWork(ContactManagementDBContext dbContext, IContactRepository contactRepository)
+        public UnitofWork(ContactManagementDBContext dbContext, IContactRepository contactRepository, IUserRepository userRepository)
         {
             _dbContext = dbContext;
             ContactRepository = contactRepository;
-
+            UserRepository = userRepository;
         }
 
         public async Task<int> SaveChangesAsync()

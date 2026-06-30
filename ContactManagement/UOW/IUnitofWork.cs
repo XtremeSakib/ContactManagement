@@ -6,6 +6,7 @@ namespace ContactManagement.UOW
     {
 
         IContactRepository ContactRepository { get; }
+        IUserRepository UserRepository { get; }
         Task<int> SaveChangesAsync();
 
     }

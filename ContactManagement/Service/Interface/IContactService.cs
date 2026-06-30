@@ -1,6 +1,6 @@
 ﻿using ContactManagement.Model;
 
-namespace ContactManagement.Service
+namespace ContactManagement.Service.Interface
 {
     public interface IContactService
     {

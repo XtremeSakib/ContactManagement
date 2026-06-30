@@ -1,7 +1,8 @@
 ﻿using ContactManagement.Model;
+using ContactManagement.Service.Interface;
 using ContactManagement.UOW;
 
-namespace ContactManagement.Service
+namespace ContactManagement.Service.Service
 {
     public class ContactService : IContactService
     {

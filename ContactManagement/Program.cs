@@ -1,7 +1,8 @@
 ﻿using ContactManagement.Data;
 using ContactManagement.Domain.Interface;
 using ContactManagement.Domain.Repository;
-using ContactManagement.Service;
+using ContactManagement.Service.Interface;
+using ContactManagement.Service.Service;
 using ContactManagement.UOW;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,6 +29,10 @@ builder.Services.AddDbContext<ContactManagementDBContext>(options =>
  
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
 builder.Services.AddScoped<IContactService, ContactService>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 builder.Services.AddScoped<IUnitofWork, UnitofWork>();
 
 var app = builder.Build();
